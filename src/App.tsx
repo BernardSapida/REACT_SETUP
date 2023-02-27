@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Signin from "./auth/signin/Signin";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
 
+import Signin from "./auth/signin/Signin";
 import css from "./App.module.css";
 
-function App() {
+const App = () => {
   const [count, setCount] = useState(0);
 
   return (
@@ -17,6 +17,6 @@ function App() {
       </section>
     </div>
   );
-}
+};
 
 export default App;

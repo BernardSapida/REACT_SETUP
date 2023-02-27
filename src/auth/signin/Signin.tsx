@@ -1,8 +1,11 @@
-import { useRef, useState, useReducer } from "react";
+import { useEffect, useContext, useState, useReducer } from "react";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
+
+import AuthContext from "../../store/auth-context";
+import Input from "./input/Input";
 
 interface Action {
   type?: string;
@@ -35,7 +38,8 @@ const passwordReducer = (state: any, action: Action) => {
   return { value: "", valid: false, error: "" };
 };
 
-function Signin() {
+const Signin = () => {
+  const context = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
@@ -49,9 +53,6 @@ function Signin() {
     valid: false,
     error: "",
   });
-
-  // const emailRef = useRef<HTMLInputElement>(null);
-  // const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -152,6 +153,7 @@ function Signin() {
     if (response.success) {
       resetState();
       storeToken(response.authToken);
+      context.signin();
       return;
     }
 
@@ -163,7 +165,7 @@ function Signin() {
 
       dispatchEmail({
         type: "validation",
-        value: "",
+        value: email,
         valid: false,
         error: errors[0],
       });
@@ -172,7 +174,7 @@ function Signin() {
 
       dispatchPassword({
         type: "validation",
-        value: "",
+        value: password,
         valid: false,
         error: errors[0],
       });
@@ -180,8 +182,8 @@ function Signin() {
   };
 
   const storeToken = (token: string) => {
+    // useEffect => set localStorage token then if the dependency is changed (login/logout) then it will remove the token from localStorage
     localStorage.setItem("token", token);
-    console.log(localStorage.getItem("token"));
   };
 
   const resetState = () => {
@@ -195,36 +197,30 @@ function Signin() {
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit}>
           <Card.Title className="fs-2 fw-semi-bold text-center">
-            Sign In
+            Sign In {context.signedIn.toString()}
           </Card.Title>
 
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={emailState.value}
-              onChange={emailChangeHandler}
-              isInvalid={validated && emailState.error.length > 0}
-            />
-            <Form.Control.Feedback type="invalid">
-              {emailState.error}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <Input
+            label={"Email Address"}
+            id={"email"}
+            type={"email"}
+            placeholder={"Type email address"}
+            value={emailState.value}
+            handler={emailChangeHandler}
+            isInvalid={validated && emailState.error.length > 0}
+            error={emailState.error}
+          />
 
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              value={passwordState.value}
-              onChange={passwordChangeHandler}
-              isInvalid={validated && passwordState.error.length > 0}
-            />
-            <Form.Control.Feedback type="invalid">
-              {passwordState.error}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <Input
+            label={"Password"}
+            id={"password"}
+            type={"password"}
+            placeholder={"Type password"}
+            value={passwordState.value}
+            handler={passwordChangeHandler}
+            isInvalid={validated && passwordState.error.length > 0}
+            error={passwordState.error}
+          />
 
           <Button as="button" type="submit" variant="primary" className="w-100">
             Sign In
@@ -233,6 +229,6 @@ function Signin() {
       </Card.Body>
     </>
   );
-}
+};
 
 export default Signin;
