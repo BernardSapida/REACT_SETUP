@@ -1,8 +1,9 @@
-import { useEffect, useContext, useState, useReducer } from "react";
+import { useContext, useState, useReducer, useCallback } from "react";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
 
 import AuthContext from "../../store/auth-context";
 import Input from "./input/Input";
@@ -40,9 +41,8 @@ const passwordReducer = (state: any, action: Action) => {
 
 const Signin = () => {
   const context = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: "",
     valid: false,
@@ -58,6 +58,7 @@ const Signin = () => {
     event.preventDefault();
     event.stopPropagation();
 
+    setLoading(true);
     setValidated(true);
 
     const email: string = emailState.value;
@@ -66,45 +67,55 @@ const Signin = () => {
     handleEmail(email);
     handlePassword(password);
 
-    if (!email || !password) return;
+    if (!email || !password) return setLoading(false);
 
     await signingIn(email, password);
   };
 
-  const emailChangeHandler = (event: any) => {
-    const email = event.target.value;
-    dispatchEmail({ type: "input", value: email, valid: false, error: "" });
-  };
+  const emailChangeHandler = useCallback(
+    (event: any) => {
+      const email = event.target.value;
+      dispatchEmail({ type: "input", value: email, valid: false, error: "" });
+    },
+    [emailState]
+  );
 
-  const passwordChangeHandler = (event: any) => {
-    const password = event.target.value;
-    dispatchPassword({
-      type: "input",
-      value: password,
-      valid: false,
-      error: "",
-    });
-  };
+  const passwordChangeHandler = useCallback(
+    (event: any) => {
+      const password = event.target.value;
+      dispatchPassword({
+        type: "input",
+        value: password,
+        valid: false,
+        error: "",
+      });
+    },
+    [passwordState]
+  );
 
   const handleEmail = (email: string) => {
     const result = validateEmail(email);
+    const errorMessage =
+      result.message.charAt(0).toUpperCase() + result.message.slice(1);
 
     dispatchEmail({
       type: "validation",
       value: email,
       valid: result.success,
-      error: result.message,
+      error: errorMessage,
     });
   };
 
   const handlePassword = (password: string) => {
     const result = validPassword(password);
+    const errorMessage =
+      result.message.charAt(0).toUpperCase() + result.message.slice(1);
 
     dispatchPassword({
       type: "validation",
       value: password,
       valid: result.success,
-      error: result.message,
+      error: errorMessage,
     });
   };
 
@@ -130,6 +141,7 @@ const Signin = () => {
     const response: any = await sendSigninRequest(email, password);
 
     handleResponse(email, password, response);
+    setLoading(false);
   };
 
   const sendSigninRequest = async (email: string, password: string) => {
@@ -138,6 +150,7 @@ const Signin = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        // Authorization: 'Bearer ' + token
       },
       body: JSON.stringify({
         email: email,
@@ -162,21 +175,25 @@ const Signin = () => {
 
     if (errEmail != undefined) {
       const errors: Array<string> = Object.values(errEmail);
+      const errorMessage =
+        errors[0].charAt(0).toUpperCase() + errors[0].slice(1);
 
       dispatchEmail({
         type: "validation",
         value: email,
         valid: false,
-        error: errors[0],
+        error: errorMessage,
       });
     } else if (errPassword != undefined) {
       const errors: Array<string> = Object.values(errPassword);
+      const errorMessage =
+        errors[0].charAt(0).toUpperCase() + errors[0].slice(1);
 
       dispatchPassword({
         type: "validation",
         value: password,
         valid: false,
-        error: errors[0],
+        error: errorMessage,
       });
     }
   };
@@ -222,8 +239,21 @@ const Signin = () => {
             error={passwordState.error}
           />
 
-          <Button as="button" type="submit" variant="primary" className="w-100">
-            Sign In
+          <Button
+            as="button"
+            type="submit"
+            variant="primary"
+            className="w-100 d-flex align-items-center justify-content-center gap-2"
+          >
+            {loading && (
+              <Spinner
+                animation="border"
+                variant="light"
+                className="height-50"
+                size="sm"
+              />
+            )}
+            {loading ? "Signing In" : "Sign In"}
           </Button>
         </Form>
       </Card.Body>

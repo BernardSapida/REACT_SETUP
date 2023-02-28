@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
 
@@ -6,8 +5,6 @@ import Signin from "./auth/signin/Signin";
 import css from "./App.module.css";
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
       <section className={`container my-5 ${css["app-component"]}`}>
