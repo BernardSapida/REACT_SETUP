@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired, decodeToken } from "react-jwt";
+import { Route, Routes } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Card from "react-bootstrap/Card";
-import css from "./App.module.css";
-
-import Signin from "./auth/signin/Signin";
 import { authActions } from "./store/slices/authSlice";
+
+import Signin from "./pages/signin/Signin";
+import Signup from "./pages/signup/Signup";
+import Signout from "./pages/signout/Signout";
+import Home from "./pages/Home";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,16 +33,18 @@ const App = () => {
       dispatch(authActions.signout());
     }, expirationInSeconds * 1000);
 
-    return () => clearTimeout(sessionTime);
-  }, []);
+    return () => {
+      clearTimeout(sessionTime);
+    };
+  }, [auth.signedIn]);
 
   return (
     <div className="App">
-      <section className={`container my-5 ${css["app-component"]}`}>
-        <Card className={`${css["signin-container"]}`} border="light">
-          <Signin />
-        </Card>
-      </section>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </div>
   );
 };

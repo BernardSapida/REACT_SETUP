@@ -1,13 +1,15 @@
-import { useState, useReducer, useCallback } from "react";
+import { useState, useReducer, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
+import css from "../../App.module.css";
 
 import Input from "./input/Input";
 import { authActions } from "../../store/slices/authSlice";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Action {
   type?: string;
@@ -41,8 +43,8 @@ const passwordReducer = (state: any, action: Action) => {
 };
 
 const Signin = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -169,6 +171,7 @@ const Signin = () => {
       resetState();
       storeToken(response.authToken);
       dispatch(authActions.signin());
+      navigate("/");
       return;
     }
 
@@ -212,54 +215,56 @@ const Signin = () => {
   };
 
   return (
-    <>
-      <Card.Body>
-        <Form noValidate onSubmit={handleSubmit}>
-          <Card.Title className="fs-2 fw-semi-bold text-center">
-            Sign In {auth.signedIn.toString()}
-          </Card.Title>
+    <section className={`container my-5 ${css["app-component"]}`}>
+      <Card className={`${css["signin-container"]}`} border="light">
+        <Card.Body>
+          <Form noValidate onSubmit={handleSubmit}>
+            <Card.Title className="fs-2 fw-semi-bold text-center">
+              Sign In
+            </Card.Title>
 
-          <Input
-            label={"Email Address"}
-            id={"email"}
-            type={"email"}
-            placeholder={"Type email address"}
-            value={emailState.value}
-            handler={emailChangeHandler}
-            isInvalid={validated && emailState.error.length > 0}
-            error={emailState.error}
-          />
+            <Input
+              label={"Email Address"}
+              id={"email"}
+              type={"email"}
+              placeholder={"Type email address"}
+              value={emailState.value}
+              handler={emailChangeHandler}
+              isInvalid={validated && emailState.error.length > 0}
+              error={emailState.error}
+            />
 
-          <Input
-            label={"Password"}
-            id={"password"}
-            type={"password"}
-            placeholder={"Type password"}
-            value={passwordState.value}
-            handler={passwordChangeHandler}
-            isInvalid={validated && passwordState.error.length > 0}
-            error={passwordState.error}
-          />
+            <Input
+              label={"Password"}
+              id={"password"}
+              type={"password"}
+              placeholder={"Type password"}
+              value={passwordState.value}
+              handler={passwordChangeHandler}
+              isInvalid={validated && passwordState.error.length > 0}
+              error={passwordState.error}
+            />
 
-          <Button
-            as="button"
-            type="submit"
-            variant="primary"
-            className="w-100 d-flex align-items-center justify-content-center gap-2"
-          >
-            {loading && (
-              <Spinner
-                animation="border"
-                variant="light"
-                className="height-50"
-                size="sm"
-              />
-            )}
-            {loading ? "Signing In" : "Sign In"}
-          </Button>
-        </Form>
-      </Card.Body>
-    </>
+            <Button
+              as="button"
+              type="submit"
+              variant="primary"
+              className="w-100 d-flex align-items-center justify-content-center gap-2"
+            >
+              {loading && (
+                <Spinner
+                  animation="border"
+                  variant="light"
+                  className="height-50"
+                  size="sm"
+                />
+              )}
+              {loading ? "Signing In" : "Sign In"}
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </section>
   );
 };
 

@@ -10,7 +10,6 @@ const authSlice = createSlice({
       state.signedIn = true;
     },
     signout(state) {
-      console.log("Signing out");
       state.signedIn = false;
     },
   },
