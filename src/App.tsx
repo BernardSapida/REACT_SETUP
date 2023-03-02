@@ -31,7 +31,7 @@ const App = () => {
     const sessionTime = setTimeout(() => {
       localStorage.removeItem("token");
       dispatch(authActions.signout());
-      navigate("/");
+      navigate("/signin");
     }, expirationInSeconds * 1000);
 
     return () => {
