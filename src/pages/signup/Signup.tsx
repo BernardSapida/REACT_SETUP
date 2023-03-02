@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import css from "../../App.module.css";
 
-import Input from "./input/Input";
+import Input from "../../components/input/Input";
 
 interface Action {
   type?: string;

@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import css from "../../App.module.css";
 
-import Input from "./input/Input";
+import Input from "../../components/input/Input";
 import { authActions } from "../../store/slices/authSlice";
 import { useNavigate, useParams } from "react-router-dom";
 

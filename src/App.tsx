@@ -1,34 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired, decodeToken } from "react-jwt";
-import { Route, Routes, useNavigate, useRoutes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { authActions } from "./store/slices/authSlice";
-
-import Signin from "./pages/signin/Signin";
-import Signup from "./pages/signup/Signup";
-import Home from "./pages/Home";
+import Router from "./routes/Router";
 
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
-  const router = useRoutes([
-    {
-      path: "/",
-      index: true,
-      element: <Home />,
-    },
-    {
-      path: "/signin",
-      element: <Signin />,
-    },
-    {
-      path: "/signup",
-      element: <Signup />,
-    },
-  ]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -54,7 +36,7 @@ const App = () => {
     };
   }, [auth.signedIn]);
 
-  return <div className="App">{router}</div>;
+  return <Router />;
 };
 
 export default App;
