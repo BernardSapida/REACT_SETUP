@@ -2,7 +2,6 @@ import Form from "react-bootstrap/Form";
 import React from "react";
 
 function Input(props: any) {
-  console.log(props.label);
   return (
     <>
       <Form.Group className="mb-3" controlId={props.id}>

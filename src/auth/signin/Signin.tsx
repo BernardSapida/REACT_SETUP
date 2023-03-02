@@ -1,12 +1,13 @@
-import { useContext, useState, useReducer, useCallback } from "react";
+import { useState, useReducer, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 
-import AuthContext from "../../store/auth-context";
 import Input from "./input/Input";
+import { authActions } from "../../store/slices/authSlice";
 
 interface Action {
   type?: string;
@@ -40,7 +41,8 @@ const passwordReducer = (state: any, action: Action) => {
 };
 
 const Signin = () => {
-  const context = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const auth = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -166,7 +168,7 @@ const Signin = () => {
     if (response.success) {
       resetState();
       storeToken(response.authToken);
-      context.signin();
+      dispatch(authActions.signin());
       return;
     }
 
@@ -214,7 +216,7 @@ const Signin = () => {
       <Card.Body>
         <Form noValidate onSubmit={handleSubmit}>
           <Card.Title className="fs-2 fw-semi-bold text-center">
-            Sign In {context.signedIn.toString()}
+            Sign In {auth.signedIn.toString()}
           </Card.Title>
 
           <Input
