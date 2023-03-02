@@ -5,13 +5,11 @@ import store from "./store/store";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import NavigationBar from "./navigation/NavigationBar";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <NavigationBar />
         <App />
       </BrowserRouter>
     </Provider>

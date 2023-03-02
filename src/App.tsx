@@ -25,6 +25,7 @@ const App = () => {
     dispatch(authActions.signin());
 
     const expirationInSeconds = decoded.exp - new Date().getTime() / 1000;
+
     const sessionTime = setTimeout(() => {
       localStorage.removeItem("token");
       dispatch(authActions.signout());
