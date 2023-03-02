@@ -8,7 +8,6 @@ import { authActions } from "./store/slices/authSlice";
 
 import Signin from "./pages/signin/Signin";
 import Signup from "./pages/signup/Signup";
-import Signout from "./pages/signout/Signout";
 import Home from "./pages/Home";
 
 const App = () => {
