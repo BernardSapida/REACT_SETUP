@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired, decodeToken } from "react-jwt";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { authActions } from "./store/slices/authSlice";
@@ -12,6 +12,7 @@ import Signout from "./pages/signout/Signout";
 import Home from "./pages/Home";
 
 const App = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
 
@@ -31,6 +32,7 @@ const App = () => {
     const sessionTime = setTimeout(() => {
       localStorage.removeItem("token");
       dispatch(authActions.signout());
+      navigate("/");
     }, expirationInSeconds * 1000);
 
     return () => {
