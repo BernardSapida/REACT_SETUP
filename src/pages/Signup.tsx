@@ -7,6 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import css from "../App.module.css";
 
 import Input from "../components/input/Input";
+import { useNavigate } from "react-router-dom";
 
 interface Action {
   type?: string;
@@ -52,6 +53,7 @@ const confirmPasswordReducer = (state: any, action: Action) => {
 };
 
 function Signup() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -189,7 +191,7 @@ function Signup() {
     if (password != confirmPassword) {
       return {
         success: false,
-        message: "Password and confirm password didn't matched.",
+        message: "Password and confirm password didn't matched!",
       };
     }
 
@@ -247,6 +249,7 @@ function Signup() {
   ) => {
     if (response.success) {
       resetState();
+      navigate("/signin");
       return;
     }
 

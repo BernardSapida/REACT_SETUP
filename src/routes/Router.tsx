@@ -1,10 +1,13 @@
-import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Public from "./Public";
 import User from "./User";
 
-const Router = (props: any) => {
-  return props.signedIn ? <User /> : <Public />;
+const Router = (isAuthenticated: boolean) => {
+  // const auth = useSelector((state: any) => state.auth);
+  // console.log(auth.signedIn);
+
+  return isAuthenticated ? User() : Public();
 };
 
 export default Router;

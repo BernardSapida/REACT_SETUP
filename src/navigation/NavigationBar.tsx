@@ -3,19 +3,19 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 import { authActions } from "../store/slices/authSlice";
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
   const auth = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const signout = () => {
     localStorage.removeItem("token");
     dispatch(authActions.signout());
-    navigate("signin");
+    navigate("/signin");
   };
 
   return (
