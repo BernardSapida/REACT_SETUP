@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Root from "../pages/Root";
 import Home from "../pages/Home";
-import Signin, { loader as signinLoader } from "../pages/Signin";
+import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import Error from "../pages/Error";
 
@@ -20,7 +20,6 @@ function Public() {
         {
           path: "signin",
           element: <Signin />,
-          loader: signinLoader,
         },
         {
           path: "signup",

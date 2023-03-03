@@ -2,14 +2,14 @@ import { useState, useReducer, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import css from "../App.module.css";
 
 import Input from "../components/input/Input";
 import { authActions } from "../store/slices/authSlice";
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { Form, useNavigate, useLoaderData } from "react-router-dom";
 
 interface Action {
   type?: string;
@@ -54,8 +54,6 @@ const passwordReducer = (state: any, action: Action) => {
 };
 
 const Signin = () => {
-  const loader = useLoaderData();
-  console.log(loader);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -231,14 +229,14 @@ const Signin = () => {
     <article className={`mx-auto ${css["app-component"]}`}>
       <Card className={`${css["signin-container"]}`} border="light">
         <Card.Body>
-          <Form noValidate onSubmit={handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit} method="post">
             <Card.Title className="fs-2 fw-semi-bold text-center">
               Sign In
             </Card.Title>
 
             <Input
               label={"Email Address"}
-              id={"email"}
+              name={"email"}
               type={"email"}
               placeholder={"Type email address"}
               value={emailState.value}
@@ -249,7 +247,7 @@ const Signin = () => {
 
             <Input
               label={"Password"}
-              id={"password"}
+              name={"password"}
               type={"password"}
               placeholder={"Type password"}
               value={passwordState.value}
