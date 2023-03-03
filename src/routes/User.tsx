@@ -2,14 +2,15 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Root from "../pages/Root";
 import Home from "../pages/Home";
-import NotFound from "../pages/NotFound";
 import Test from "../pages/Test";
+import Error from "../pages/Error";
 
 function User() {
   const router = createBrowserRouter([
     {
       path: "",
       element: <Root />,
+      errorElement: <Error />,
       children: [
         {
           index: true,
@@ -18,10 +19,6 @@ function User() {
         {
           path: "test",
           element: <Test />,
-        },
-        {
-          path: "*",
-          element: <NotFound />,
         },
       ],
     },

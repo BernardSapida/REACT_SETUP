@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired, decodeToken } from "react-jwt";
@@ -41,7 +41,11 @@ function Root() {
   return (
     <>
       <NavigationBar />
-      <Outlet />
+      <main>
+        <section className="container my-5">
+          <Outlet />
+        </section>
+      </main>
     </>
   );
 }

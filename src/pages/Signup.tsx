@@ -306,7 +306,7 @@ function Signup() {
   };
 
   return (
-    <section className={`container my-5 ${css["app-component"]}`}>
+    <article className={`mx-auto ${css["app-component"]}`}>
       <Card className={`${css["signin-container"]}`} border="light">
         <Card.Body>
           <Form noValidate onSubmit={handleSubmit}>
@@ -366,7 +366,7 @@ function Signup() {
           </Form>
         </Card.Body>
       </Card>
-    </section>
+    </article>
   );
 }
 

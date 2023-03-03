@@ -1,6 +1,6 @@
 function Test() {
   return (
-    <div className="container my-5">
+    <div className="my-5">
       <h1>Test</h1>
     </div>
   );

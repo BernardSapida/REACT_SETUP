@@ -2,15 +2,16 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Root from "../pages/Root";
 import Home from "../pages/Home";
-import Signin from "../pages/Signin";
+import Signin, { loader as signinLoader } from "../pages/Signin";
 import Signup from "../pages/Signup";
-import NotFound from "../pages/NotFound";
+import Error from "../pages/Error";
 
 function Public() {
   const router = createBrowserRouter([
     {
       path: "",
       element: <Root />,
+      errorElement: <Error />,
       children: [
         {
           index: true,
@@ -19,17 +20,11 @@ function Public() {
         {
           path: "signin",
           element: <Signin />,
-          loader: () => {
-            return `Testing!`;
-          },
+          loader: signinLoader,
         },
         {
           path: "signup",
           element: <Signup />,
-        },
-        {
-          path: "*",
-          element: <NotFound />,
         },
       ],
     },

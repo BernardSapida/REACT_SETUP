@@ -18,6 +18,17 @@ interface Action {
   error: string;
 }
 
+export const loader = async () => {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    return response;
+  } catch (error: any) {
+    throw new Response(`Error: ${error.message}`, {
+      status: 500,
+    });
+  }
+};
+
 const emailReducer = (state: any, action: Action) => {
   if (action.type === "input") {
     return { value: action.value, valid: action.valid, error: action.error };
@@ -217,7 +228,7 @@ const Signin = () => {
   };
 
   return (
-    <section className={`container my-5 ${css["app-component"]}`}>
+    <article className={`mx-auto ${css["app-component"]}`}>
       <Card className={`${css["signin-container"]}`} border="light">
         <Card.Body>
           <Form noValidate onSubmit={handleSubmit}>
@@ -266,7 +277,7 @@ const Signin = () => {
           </Form>
         </Card.Body>
       </Card>
-    </section>
+    </article>
   );
 };
 
