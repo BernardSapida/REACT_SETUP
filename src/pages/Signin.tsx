@@ -9,7 +9,7 @@ import css from "../App.module.css";
 
 import Input from "../components/input/Input";
 import { authActions } from "../store/slices/authSlice";
-import { useNavigate, redirect, useLoaderData } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 
 interface Action {
   type?: string;
@@ -172,7 +172,6 @@ const Signin = () => {
       resetState();
       storeToken(response.authToken);
       dispatch(authActions.signin());
-      console.log("redirecting...");
       navigate("/");
       return;
     }
