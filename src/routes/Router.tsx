@@ -1,7 +1,4 @@
-import { useRoutes, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
-import { authActions } from "../store/slices/authSlice";
-import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
 import Root from "../pages/Root";
 import Home from "../pages/Home";
@@ -9,9 +6,7 @@ import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
 
-const Router = () => {
-  const auth = useSelector((state: any) => state.auth);
-
+const Router = (props: any) => {
   const Public = (
     <Routes>
       <Route path="/" element={<Root />}>
@@ -33,14 +28,7 @@ const Router = () => {
     </Routes>
   );
 
-  let routes: any = Public;
-
-  useEffect(() => {
-    if (auth.signedIn) routes = User;
-    else routes = Public;
-  }, [auth.signedIn]);
-
-  return routes;
+  return props.signedIn ? User : Public;
 };
 
 export default Router;

@@ -37,7 +37,7 @@ const App = () => {
     };
   }, [auth.signedIn]);
 
-  return <Router />;
+  return <Router signedIn={auth.signedIn} />;
 };
 
 export default App;
