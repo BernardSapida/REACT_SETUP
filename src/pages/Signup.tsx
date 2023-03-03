@@ -1,5 +1,4 @@
 import { useState, useReducer, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -53,8 +52,6 @@ const confirmPasswordReducer = (state: any, action: Action) => {
 };
 
 function Signup() {
-  const dispatch = useDispatch();
-  const auth = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {

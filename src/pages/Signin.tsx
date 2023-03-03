@@ -1,5 +1,5 @@
-import { useState, useReducer, useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useReducer, useCallback } from "react";
+import { useDispatch } from "react-redux";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -9,7 +9,7 @@ import css from "../App.module.css";
 
 import Input from "../components/input/Input";
 import { authActions } from "../store/slices/authSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 
 interface Action {
   type?: string;
@@ -43,6 +43,7 @@ const passwordReducer = (state: any, action: Action) => {
 };
 
 const Signin = () => {
+  // const loader = useLoaderData();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
