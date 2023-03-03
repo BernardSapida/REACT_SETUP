@@ -19,6 +19,9 @@ function Public() {
         {
           path: "signin",
           element: <Signin />,
+          loader: () => {
+            return `Testing!`;
+          },
         },
         {
           path: "signup",

@@ -43,7 +43,8 @@ const passwordReducer = (state: any, action: Action) => {
 };
 
 const Signin = () => {
-  // const loader = useLoaderData();
+  const loader = useLoaderData();
+  console.log(loader);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
