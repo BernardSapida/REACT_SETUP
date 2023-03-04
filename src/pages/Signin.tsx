@@ -2,7 +2,6 @@ import { useState, useReducer, useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import css from "../App.module.css";

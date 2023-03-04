@@ -13,19 +13,33 @@ function Root() {
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
 
-  useEffect(() => {
+  const getToken = () => {
     const token = localStorage.getItem("token");
+    return token;
+  };
 
-    if (!token) return;
-
+  const verifyToken = (token: string): Record<string, any> | string => {
     const decoded: Record<string, any> = decodeToken(token)!;
     const tokenExpired = isExpired(token);
 
-    if (!decoded || tokenExpired) return;
+    if (!decoded || tokenExpired) return "invalid";
+
+    return decoded;
+  };
+
+  useEffect(() => {
+    const token = getToken();
+
+    if (!token) return;
+
+    const processedToken: any = verifyToken(token);
+
+    if (processedToken == "invalid") return;
 
     dispatch(authActions.signin());
 
-    const expirationInSeconds = decoded.exp - new Date().getTime() / 1000;
+    const expirationInSeconds =
+      processedToken.exp - new Date().getTime() / 1000;
 
     const sessionTime = setTimeout(() => {
       localStorage.removeItem("token");
